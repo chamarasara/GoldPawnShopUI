@@ -1,0 +1,31 @@
+//Articles
+export const CREATE_ARTICLE = 'CREATE_ARTICLE';
+export const FETCH_ARTICLES = 'FETCH_ARTICLES';
+export const FETCH_ARTICLE = 'FETCH_ARTICLE';
+export const EDIT_ARTICLE = 'EDIT_ARTICLE';
+export const DELETE_ARTICLE = 'DELETE_ARTICLE';
+export const SEARCH_ARTICLE = 'SEARCH_ARTICLE';
+export const SEARCH_ARTICLE_BY_TEXT = 'SEARCH_ARTICLE_BY_TEXT';
+export const SEARCH_ARTICLE_DATE = 'SEARCH_ARTICLE_DATE';
+//Users
+export const CREATE_USER = 'CREATE_USER';
+export const EDIT_USER = 'EDIT_USER';
+export const FETCH_USERS = 'FETCH_USERS';
+export const FETCH_USER = 'FETCH_USER';
+export const DELETE_USER = 'DELETE_USER';
+export const AUTHENTICATED = 'AUTHENTICATED';
+export const UNAUTHENTICATED = 'UNAUTHENTICATED';
+export const AUTHENTICATION_ERROR = 'AUTHENTICATION_ERROR';
+
+//Rates
+export const FETCH_RATES = 'FETCH_RATES';
+export const EDIT_RATES = 'EDIT_RATES';
+
+//Activities
+export const FETCH_ACTIVITIES = 'FETCH_ACTIVITIES';
+
+//Reports
+export const FETCH_REPORTS = 'FETCH_REPORTS';
+export const SEARCH_REPORTS = 'SEARCH_REPORTS';
+export const SEARCH_REPORTS_DATE = 'SEARCH_REPORTS_DATE';
+
