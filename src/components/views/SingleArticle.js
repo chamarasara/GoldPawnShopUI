@@ -379,7 +379,7 @@ class SingleArticle extends React.Component {
                                             </div>
                                         </div>
                                         <div className="ui horizontal divider">
-                                            Thank you
+                                           .
                                         </div>
                                     </div>
                                 </div>
@@ -425,7 +425,7 @@ class SingleArticle extends React.Component {
                                             </div>
                                         </div>
                                         <div className="ui horizontal divider">
-                                            Thank you
+                                           .
                                         </div>
                                     </div>
                                 </div>
@@ -471,7 +471,7 @@ class SingleArticle extends React.Component {
                                             </div>
                                         </div>
                                         <div className="ui horizontal divider">
-                                            Thank you
+                                           .
                                         </div>
                                     </div>
                                 </div>
@@ -503,7 +503,7 @@ class SingleArticle extends React.Component {
                                             </div>
                                         </div>
                                         <div className="ui horizontal divider">
-                                            Thank you
+                                           .
                                         </div>
                                     </div>
                                 </div>
