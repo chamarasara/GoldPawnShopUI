@@ -6,7 +6,7 @@ import EditRates from './EditRates';
 import { Link } from "react-router-dom";
 class Settings extends React.Component {
     componentDidMount() {
-        this.props.fetchRates('5ede1d0434c8e4192cc45222');
+        this.props.fetchRates('5f12c185e1b005f6656aca78');
         console.log(this.props)
     }
 
@@ -67,7 +67,7 @@ class Settings extends React.Component {
 
 const mapToSatate = (state, ownPorps) => {
     //console.log(ownPorps.match.params.id)
-    const intId = '5ede1d0434c8e4192cc45222';
+    const intId = '5f12c185e1b005f6656aca78';
     console.log(state.interest[intId])
     return { interest: state.interest[intId] };
 }

@@ -10,7 +10,7 @@ import moment from 'moment';
 
 class SingleArticle extends React.Component {
     componentDidMount() {
-        this.props.fetchRates('5ede1d0434c8e4192cc45222');
+        this.props.fetchRates('5f12c185e1b005f6656aca78');
         this.props.fetchArticle(this.props.match.params.id);
         this.props.activityLog()
     }
@@ -510,7 +510,7 @@ class SingleArticle extends React.Component {
 
 //Map data from the store
 const mapToSatate = (state, ownPorps) => {
-    const intId = '5ede1d0434c8e4192cc45222';
+    const intId = '5f12c185e1b005f6656aca78';
     //console.log(state.interest)
     const activities = Object.values(state.activities)
     activities.reverse()
