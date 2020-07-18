@@ -372,7 +372,7 @@ class SingleArticle extends React.Component {
                                             </div>
                                         </div>
                                         <div className="event" style={{ marginBottom: "40px" }}>
-                                            <div className="content">
+                                            <div className="extra content">
                                                 <div className="center aligned summary" style={{ textAlign: "center" }}>
                                                     <span style={{ textDecoration: "underline", borderBottom: "1px solid #000" }}>{this.toTotalInterestPaid() + this.toTotalAmountPaid() + ".00"}</span>
                                                 </div>
@@ -415,7 +415,7 @@ class SingleArticle extends React.Component {
                                             </div>
                                         </div>
                                         <div className="event" style={{ marginBottom: "40px" }}>
-                                            <div className="content">
+                                            <div className="extra content">
                                                 <div className="center aligned summary" style={{ textAlign: "center" }}>
                                                     <span style={{ textDecoration: "underline", borderBottom: "1px solid #000" }}>{this.props.article.released_amount + this.props.article.interest_paid + ".00"}</span>
                                                 </div>
@@ -458,7 +458,7 @@ class SingleArticle extends React.Component {
                                             </div>
                                         </div>
                                         <div className="event" style={{ marginBottom: "40px" }}>
-                                            <div className="content">
+                                            <div className="extra content">
                                                 <div className="center aligned summary" style={{ textAlign: "center" }}>
                                                     <span style={{ textDecoration: "underline", borderBottom: "1px solid #000" }}>{this.props.article.additional_amount - this.props.article.interest_paid + ".00"}</span>
                                                 </div>
@@ -487,7 +487,7 @@ class SingleArticle extends React.Component {
                                             </div>
                                         </div>
                                         <div className="event" style={{ marginBottom: "40px" }}>
-                                            <div className="content">
+                                            <div className="extra content">
                                                 <div className="center aligned summary" style={{ textAlign: "center" }}>
                                                     <span style={{ textDecoration: "underline" }}>{this.props.article.interest_paid + ".00"}</span>
                                                 </div>
