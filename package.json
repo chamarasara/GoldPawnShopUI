@@ -19,7 +19,8 @@
     "react-sidebar": "^3.0.2",
     "redux": "^4.0.5",
     "redux-form": "^8.3.1",
-    "redux-thunk": "^2.3.0"
+    "redux-thunk": "^2.3.0",
+    "react-to-print": "^2.9.0"
   },
   "scripts": {
     "start": "react-scripts start",
