@@ -298,7 +298,7 @@ class SingleArticle extends React.Component {
                                 <div className="ui horizontal label">Total Inerest Paid</div>
                                 {this.toTotalInterestPaid() + ".00"}
                             </div>
-                            
+
                             <div className="item">
                                 <div className="ui horizontal label">Weight</div>
                                 {this.props.article.weight}
@@ -378,6 +378,9 @@ class SingleArticle extends React.Component {
                                                 </div>
                                             </div>
                                         </div>
+                                        <div className="ui horizontal divider">
+                                            Thank you
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -420,6 +423,9 @@ class SingleArticle extends React.Component {
                                                     <span style={{ textDecoration: "underline", borderBottom: "1px solid #000" }}>{this.props.article.released_amount + this.props.article.interest_paid + ".00"}</span>
                                                 </div>
                                             </div>
+                                        </div>
+                                        <div className="ui horizontal divider">
+                                            Thank you
                                         </div>
                                     </div>
                                 </div>
@@ -464,12 +470,15 @@ class SingleArticle extends React.Component {
                                                 </div>
                                             </div>
                                         </div>
+                                        <div className="ui horizontal divider">
+                                            Thank you
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                             <button className="ui button" onClick={() => this.changeAmountSlip()}>Print</button>
                         </div>
-                    </div> 
+                    </div>
                     <div className="four wide column" style={{ marginTop: "30px", marginBottom: "10px", textAlign: "center" }}>
                         <div className="ui card">
                             <div id="pay-interest-slip">
@@ -493,12 +502,15 @@ class SingleArticle extends React.Component {
                                                 </div>
                                             </div>
                                         </div>
+                                        <div className="ui horizontal divider">
+                                            Thank you
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                             <button className="ui button" onClick={() => this.payInterestSlip()}>Print</button>
                         </div>
-                    </div>                    
+                    </div>
                 </div>
                 <div>
                     <RelatedArticle userId={this.props.article.id_number} articleId={this.props.article.articleId} />
