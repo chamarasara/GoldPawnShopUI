@@ -20,6 +20,7 @@ import EditRates from './views/EditRates';
 import ListRecords from './views/ListRecords';
 import ActivityLog from './views/ActivityLog';
 import PrintReports from'./views/PrintReports';
+import ArticlePayments from './views/ArticlePayments';
 
 class App extends React.Component{
 
@@ -48,6 +49,7 @@ class App extends React.Component{
                     <PrivateRoute path="/rates/:id" component={EditRates} />
                     <PrivateRoute path="/activitylog" component={ActivityLog} />
                     <PrivateRoute path="/print" component={PrintReports} />
+                    <PrivateRoute path="/renewbypaying/:id" component={ArticlePayments} /> 
                     </div>
                 </Router> 
             </div>

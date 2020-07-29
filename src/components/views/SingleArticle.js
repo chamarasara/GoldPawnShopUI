@@ -7,6 +7,8 @@ import ArticleState from './ArticleState';
 import ArticlePayments from './ArticlePayments';
 import RelatedArticle from './RelatedArticle';
 import moment from 'moment';
+import ArticlePayInterest from './ArticlePayInterest';
+import ArticleChangeAmount from './ArticleChangeAmount';
 
 class SingleArticle extends React.Component {
     componentDidMount() {
@@ -195,15 +197,7 @@ class SingleArticle extends React.Component {
         window.print();
         document.body.innerHTML = oldPage
     }
-    paymentSlip = () => {
-        const printableElements = document.getElementById('payment-slip').innerHTML;
-        const orderHtml = '<html><head><title></title></head><body>' + printableElements + '</body></html>'
-        const oldPage = document.body.innerHTML;
-        console.log(oldPage)
-        document.body.innerHTML = orderHtml;
-        window.print();
-        document.body.innerHTML = oldPage
-    }
+
     changeAmountSlip = () => {
         const printableElements = document.getElementById('change-amount-slip').innerHTML;
         const orderHtml = '<html><head><title></title></head><body>' + printableElements + '</body></html>'
@@ -251,7 +245,6 @@ class SingleArticle extends React.Component {
                             <div className="item">
                                 <div className="ui horizontal label">Date </div>
                                 {date}
-
                             </div>
                             {this.articleStatus()}
                             <div className="item">
@@ -266,6 +259,31 @@ class SingleArticle extends React.Component {
                                 <div className="ui horizontal label">Address </div>
                                 {this.props.article.address}
                             </div>
+                            <div className="item">
+                                <div className="ui horizontal label">Weight</div>
+                                {this.props.article.weight}
+                            </div>
+                            {this.duration()}
+                            <div className="item">
+                                <div className="ui horizontal label">Final Date</div>
+                                {this.props.article.released_final_date}
+                            </div>
+                            <div className="item">
+                                <div className="ui horizontal label">Released Date</div>
+                                {this.props.article.released_date}
+                            </div>
+                            <div className="item">
+                                <div className="ui horizontal label">Additional Details </div>
+                                {this.props.article.addtional_details}
+                            </div>
+                            <div className="item">
+                                <div className="ui horizontal label">Special Circumstance</div>
+                                {this.props.article.speacial_circumstances}
+                            </div>
+                        </div>
+                    </div>
+                    <div className="eight wide column">
+                        <div className="ui divided selection list">
                             <div className="item">
                                 <div className="ui horizontal label">Amount Pawned</div>
                                 {this.props.article.amount + ".00"}
@@ -298,47 +316,27 @@ class SingleArticle extends React.Component {
                                 <div className="ui horizontal label">Total Inerest Paid</div>
                                 {this.toTotalInterestPaid() + ".00"}
                             </div>
-
-                            <div className="item">
-                                <div className="ui horizontal label">Weight</div>
-                                {this.props.article.weight}
-                            </div>
-                            {this.duration()}
-                            <div className="item">
-                                <div className="ui horizontal label">Final Date</div>
-                                {this.props.article.released_final_date}
-                            </div>
-                            <div className="item">
-                                <div className="ui horizontal label">Released Date</div>
-                                {this.props.article.released_date}
-                            </div>
-                            <div className="item">
-                                <div className="ui horizontal label">Additional Details </div>
-                                {this.props.article.addtional_details}
-                            </div>
-                            <div className="item">
-                                <div className="ui horizontal label">Special Circumstance</div>
-                                {this.props.article.speacial_circumstances}
-                            </div>
+                        </div>
+                        <ArticleState article={this.props.match.params.id} />
+                        <div style={{ marginTop: "20px" }}>
+                            <Link to={`/singlearticle/${this.props.article.previous_article_id}`} className="ui primary button">
+                                Previous Article
+                            </Link>
+                            <Link to={`/renewbypaying/${this.props.match.params.id}`} className="ui primary button">
+                                Renew Article
+                            </Link>
+                            <Link to={`/editarticle/${this.props.match.params.id}`} className="ui primary button">
+                                Edit Article
+                            </Link>
+                            {this.adminRendering()}
                         </div>
                     </div>
-                    <div className="eight wide column">
-                        <ArticlePayments article={this.props.match.params.id} />
-                        <ArticleState article={this.props.match.params.id} />
-
-                    </div>
                 </div>
-                <div style={{ marginTop: "20px" }}>
-                    <Link to={`/singlearticle/${this.props.article.previous_article_id}`} className="ui primary button">
-                        Previous Article
-                    </Link>
-                    <Link to={`/renewarticle/${this.props.match.params.id}`} className="ui primary button">
-                        Renew Article
-                    </Link>
-                    <Link to={`/editarticle/${this.props.match.params.id}`} className="ui primary button">
-                        Edit Article
-                    </Link>
-                    {this.adminRendering()}
+
+                <div className="eight wide column">
+                    <ArticlePayInterest article={this.props.match.params.id} />
+                    <ArticleChangeAmount article={this.props.match.params.id}/>
+
                 </div>
                 <div className="ui grid">
                     <div className="four wide column" style={{ marginTop: "30px", marginBottom: "10px", textAlign: "center" }}>
@@ -379,7 +377,7 @@ class SingleArticle extends React.Component {
                                             </div>
                                         </div>
                                         <div className="ui horizontal divider">
-                                           .
+                                            .
                                         </div>
                                     </div>
                                 </div>
@@ -388,129 +386,12 @@ class SingleArticle extends React.Component {
                         </div>
                     </div>
                     <div className="four wide column" style={{ marginTop: "30px", marginBottom: "10px", textAlign: "center" }}>
-                        <div className="ui card">
-                            <div id="payment-slip">
-                                <div className="content">
-                                    <div className="center aligned header" style={{ marginTop: "30px", marginBottom: "10px", textAlign: "center" }}>Payments with Interest</div>
-                                </div>
-                                <div className="content">
-                                    <h3 className="ui center aligned header">{this.props.article.articleId}</h3>
-                                    <div className="ui small feed">
-                                        <div className="event">
-                                            <div className="center aligned content">
-                                                <div className="center aligned summary" style={{ textAlign: "center" }}>
-                                                    {this.getCurrentDate()}
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="event">
-                                            <div className="content">
-                                                <div className="center aligned summary" style={{ textAlign: "center" }}>
-                                                    {this.props.article.released_amount + ".00"} ({this.props.article.amount + this.props.article.additional_amount - this.props.article.released_amount + ".00"})
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="event">
-                                            <div className="content">
-                                                <div className="center aligned summary" style={{ textAlign: "center" }}>
-                                                    <span style={{ textDecoration: "underline" }}>{this.props.article.interest_paid + ".00"}</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="event" style={{ marginBottom: "40px" }}>
-                                            <div className="extra content">
-                                                <div className="center aligned summary" style={{ textAlign: "center" }}>
-                                                    <span style={{ textDecoration: "underline", borderBottom: "1px solid #000" }}>{this.props.article.released_amount + this.props.article.interest_paid + ".00"}</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="ui horizontal divider">
-                                           .
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <button className="ui button" onClick={() => this.paymentSlip()}>Print</button>
-                        </div>
+
                     </div>
                     <div className="four wide column" style={{ marginTop: "30px", marginBottom: "10px", textAlign: "center" }}>
-                        <div className="ui card">
-                            <div id="change-amount-slip">
-                                <div className="content">
-                                    <div className="center aligned header" style={{ marginTop: "30px", marginBottom: "10px", textAlign: "center" }}>Changed Amount by Paying Interest</div>
-                                </div>
-                                <div className="content">
-                                    <h3 className="ui center aligned header">{this.props.article.articleId}</h3>
-                                    <div className="ui small feed">
-                                        <div className="event">
-                                            <div className="center aligned content">
-                                                <div className="center aligned summary" style={{ textAlign: "center" }}>
-                                                    {this.getCurrentDate()}
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="event">
-                                            <div className="content">
-                                                <div className="center aligned summary" style={{ textAlign: "center" }}>
-                                                    {this.props.article.additional_amount + ".00"}({this.props.article.amount + this.props.article.additional_amount + ".00"})
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="event">
-                                            <div className="content">
-                                                <div className="center aligned summary" style={{ textAlign: "center" }}>
-                                                    <span style={{ textDecoration: "underline" }}>{this.props.article.interest_paid + ".00"}</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="event" style={{ marginBottom: "40px" }}>
-                                            <div className="extra content">
-                                                <div className="center aligned summary" style={{ textAlign: "center" }}>
-                                                    <span style={{ textDecoration: "underline", borderBottom: "1px solid #000" }}>{this.props.article.additional_amount - this.props.article.interest_paid + ".00"}</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="ui horizontal divider">
-                                           .
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <button className="ui button" onClick={() => this.changeAmountSlip()}>Print</button>
-                        </div>
+                        
                     </div>
-                    <div className="four wide column" style={{ marginTop: "30px", marginBottom: "10px", textAlign: "center" }}>
-                        <div className="ui card">
-                            <div id="pay-interest-slip">
-                                <div className="content">
-                                    <div className="center aligned header" style={{ marginTop: "30px", marginBottom: "10px", textAlign: "center" }}>Pay Interest</div>
-                                </div>
-                                <div className="content">
-                                    <h3 className="ui center aligned header">{this.props.article.articleId}</h3>
-                                    <div className="ui small feed">
-                                        <div className="event">
-                                            <div className="center aligned content">
-                                                <div className="center aligned summary" style={{ textAlign: "center" }}>
-                                                    {this.getCurrentDate()}
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="event" style={{ marginBottom: "40px" }}>
-                                            <div className="extra content">
-                                                <div className="center aligned summary" style={{ textAlign: "center" }}>
-                                                    <span style={{ textDecoration: "underline" }}>{this.props.article.interest_paid + ".00"}</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="ui horizontal divider">
-                                           .
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <button className="ui button" onClick={() => this.payInterestSlip()}>Print</button>
-                        </div>
-                    </div>
+
                 </div>
                 <div>
                     <RelatedArticle userId={this.props.article.id_number} articleId={this.props.article.articleId} />
