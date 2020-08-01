@@ -18,6 +18,7 @@ class NewRecord extends React.Component{
     }
     errorMessage() {
         if (this.props.errorMessage) {
+            console.log(this.props)
             return (
                 <div className="ui error message">
                     {this.props.errorMessage}
@@ -132,17 +133,20 @@ const validate = (formValues) =>{
         errors.duration = 'Please select the Duration';
     }
     if (!formValues.articleId) {
-        errors.articleId = 'Please select the Article Number';
+        errors.articleId = 'Please enter the Article Number';
     }
     if (!formValues.color) {
         errors.color = 'Please select the Article Number';
     }
     return errors;
 }
-                                                                            
+const mapStateToProps = (state) => {
+    console.log(state)
+    return { errorMessage: state.articles.error };
+}                                                                           
 const formWrapped =  reduxForm({
     form: 'newArticle',
     validate: validate
 })(NewRecord);
 
-export default connect(null, {newArticle})(formWrapped);
+export default connect(mapStateToProps, {newArticle})(formWrapped);

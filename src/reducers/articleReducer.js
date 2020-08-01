@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import {
     CREATE_ARTICLE,
+    ARTICLE_EXISTS,
     FETCH_ARTICLES,
     FETCH_ARTICLE,
     EDIT_ARTICLE,
@@ -11,6 +12,8 @@ export default (state = {}, action) => {
     switch (action.type) {
         case FETCH_ARTICLES:
             return { ...state, ..._.mapKeys(action.payload, '_id' ) };        
+        case ARTICLE_EXISTS :
+            return { ...state, error: action.payload}
         case FETCH_ARTICLE:
             return { ...state, [action.payload._id]: action.payload };
         case CREATE_ARTICLE:

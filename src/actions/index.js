@@ -7,6 +7,7 @@ import history from '../history';
 import moment from 'moment';
 import {
     CREATE_ARTICLE,
+    ARTICLE_EXISTS,
     FETCH_ARTICLES,
     FETCH_ARTICLE,
     EDIT_ARTICLE,
@@ -34,19 +35,27 @@ import {
 
 //Add new article
 export const newArticle = (formValues, previous_article_id) => async dispatch => {
-    const token = localStorage.getItem('user');
-    const decoded = jwt_decode(token);
-    const userId = decoded.user_name; 
-    const header = { headers: { 'authorization': token } };
-    console.log(formValues)
-    const previous_article = previous_article_id;
-    console.log(previous_article)
-    //console.log(header.headers)
-    //console.log(userId);
-    const response = await articles.post('/articles', { ...formValues, userId, previous_article }, header);
-    console.log(response)
-    dispatch({ type: CREATE_ARTICLE, payload: response.data });
-    window.location.reload();
+    try {
+        const token = localStorage.getItem('user');
+        const decoded = jwt_decode(token);
+        const userId = decoded.user_name;
+        const header = { headers: { 'authorization': token } };
+        console.log(formValues)
+        const previous_article = previous_article_id;
+        console.log(previous_article)
+        //console.log(header.headers)
+        //console.log(userId);
+        const response = await articles.post('/articles', { ...formValues, userId, previous_article }, header);
+        console.log(response)
+        dispatch({ type: CREATE_ARTICLE, payload: response.data });
+        window.location.reload();
+    } catch (error) {
+        dispatch({
+            type: ARTICLE_EXISTS,
+            payload: 'Article Number Already Exists'
+        });
+    }
+    
 };
 //Fetch all articles
 export const fetchArticles = () => async dispatch => {
