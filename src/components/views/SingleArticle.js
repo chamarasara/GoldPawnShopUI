@@ -18,8 +18,7 @@ class SingleArticle extends React.Component {
     }
     adminRendering() {
         const token = localStorage.getItem('user');
-        const decoded = jwt_decode(token);
-        //console.log(decoded)
+        const decoded = jwt_decode(token);        
         if (decoded.user_role === 1) {
             return <Link to={`/deletearticle/${this.props.match.params.id}`} className="ui red button">
                 Delete Article
@@ -28,9 +27,7 @@ class SingleArticle extends React.Component {
         }
     }
     articleInterest() {
-        //console.log(this.props.article._id)
         const amount = this.props.article.amount + this.props.article.additional_amount;
-        console.log(amount)
         const datetime = new Date();
         const startDate = moment(this.props.article.createdAt).format('MM/DD/YYYY');
         const endDate = moment(datetime).format('MM/DD/YYYY');
@@ -38,12 +35,10 @@ class SingleArticle extends React.Component {
         const date2 = new Date(startDate);
         const diffTime = Math.abs(date1 - date2);
         const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-        //console.log(diffDays);
         const noOfDates = 0;
         var rates = 0;
 
         if (this.props.interest.min_amount < amount && amount <= this.props.interest.mid_amount) {
-            // console.log("1000 < amount< 10000");
             if (diffDays <= 1) {
                 // console.log("Only 1 day")
                 return rates = amount * this.props.interest.oneDay_onetoten / 100
@@ -139,7 +134,6 @@ class SingleArticle extends React.Component {
     }
     //count total amount paid
     toTotalAmountPaid() {
-        console.log(this.props.activities)
         var sum = 0;
         var values = this.props.activities;
 
@@ -149,24 +143,18 @@ class SingleArticle extends React.Component {
                 console.log(record.released_amount)
                 sum += record.released_amount
             }
-            //sum += values[i].amount;
-            //console.log(found)
         }
-        console.log('total', sum)
         return sum;
     }
 
     //count total interest paid
     toTotalInterestPaid() {
-        console.log(this.props.activities)
         var sum = 0;
         var values = this.props.activities;
-        console.log(values)
 
         for (var i = 0; i < values.length; i++) {
             let record = values[i];
             if (record && record.interest_paid && record.articleId == this.props.article.articleId) {
-                console.log(record.interest_paid)
                 sum += record.interest_paid
             }
         }
@@ -175,7 +163,6 @@ class SingleArticle extends React.Component {
     }
     duration() {
         const duration = this.props.article.duration;
-        //console.log(this.props.article.id_number)
         if (duration == 1) {
             return <div className="item">
                 <div className="ui horizontal label">Duration</div>
@@ -192,7 +179,6 @@ class SingleArticle extends React.Component {
         const printableElements = document.getElementById('release-slip').innerHTML;
         const orderHtml = '<html><head><title></title></head><body>' + printableElements + '</body></html>'
         const oldPage = document.body.innerHTML;
-        console.log(oldPage)
         document.body.innerHTML = orderHtml;
         window.print();
         document.body.innerHTML = oldPage
@@ -202,7 +188,6 @@ class SingleArticle extends React.Component {
         const printableElements = document.getElementById('change-amount-slip').innerHTML;
         const orderHtml = '<html><head><title></title></head><body>' + printableElements + '</body></html>'
         const oldPage = document.body.innerHTML;
-        console.log(oldPage)
         document.body.innerHTML = orderHtml;
         window.print();
         document.body.innerHTML = oldPage
@@ -211,7 +196,6 @@ class SingleArticle extends React.Component {
         const printableElements = document.getElementById('pay-interest-slip').innerHTML;
         const orderHtml = '<html><head><title></title></head><body>' + printableElements + '</body></html>'
         const oldPage = document.body.innerHTML;
-        console.log(oldPage)
         document.body.innerHTML = orderHtml;
         window.print();
         document.body.innerHTML = oldPage
@@ -272,7 +256,6 @@ class SingleArticle extends React.Component {
         }
     }
     render() {
-        //console.log(this.props)
         if (!this.props.article || !this.props.interest) {
             return <div>Loading...</div>
         }
@@ -280,8 +263,6 @@ class SingleArticle extends React.Component {
         const roundedInterest = interest + (10 - interest % 10);
         const date = moment(this.props.article.createdAt).format('MM/DD/YYYY');
 
-        // console.log(date);
-        // console.log(roundedInterest);
 
         return (
             <div className="ui container" style={{ marginTop: "30px", marginBottom: "30px" }}>
@@ -341,11 +322,11 @@ class SingleArticle extends React.Component {
                             </div>
                             <div className="item">
                                 <div className="ui horizontal label">Additional Amount Pawned</div>
-                                {this.props.article.additional_amount + ".00"}
+                                {this.props.article.additional_amount + ".00"} (Date: {this.props.article.amountChangedDate})
                             </div>
                             <div className="item">
                                 <div className="ui horizontal label">Total Amount Pawned</div>
-                                {this.props.article.amount + this.props.article.additional_amount + ".00"}
+                                {this.props.article.amount + this.props.article.additional_amount + ".00"} 
                             </div>
                             <div className="item">
                                 <div className="ui horizontal label">Amount Paid</div>
@@ -361,7 +342,7 @@ class SingleArticle extends React.Component {
                             </div>
                             <div className="item">
                                 <div className="ui horizontal label">Inerest Paid</div>
-                                {this.props.article.interest_paid + ".00"}
+                                {this.props.article.interest_paid + ".00"} (Date: {this.props.article.interestPaidDate})
                             </div>
                             <div className="item">
                                 <div className="ui horizontal label">Total Inerest Paid</div>
@@ -405,11 +386,9 @@ class SingleArticle extends React.Component {
 //Map data from the store
 const mapToSatate = (state, ownPorps) => {
     const intId = '5f12c185e1b005f6656aca78';
-    //console.log(state.interest)
     const activities = Object.values(state.activities)
     activities.reverse()
     console.log(state)
-    //console.log(state.articles[ownPorps.match.params.id])
     return { interest: state.interest[intId], article: state.articles[ownPorps.match.params.id], activities: activities };
 }
 

@@ -99,11 +99,12 @@ export const editArticle = (id, formValues, article_number) => async dispatch =>
     const token = localStorage.getItem('user');
     const decoded = jwt_decode(token);
     const userId = decoded.user_name;
+    console.log(userId)
     const article_status = formValues.article_status;
     const current_date = moment().format('MM/DD/YYYY');
     const final_date = current_date;
     console.log(formValues)
-    console.log(article_number)
+    //console.log(article_number)
     const header = { headers: { 'authorization': token } };
     const response = await articles.patch(`/articles/${id}`, { ...formValues, userId, article_number}, header);
     console.log(response)

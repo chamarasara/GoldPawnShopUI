@@ -98,7 +98,7 @@ class RelatedArticle extends React.Component {
         return (
             <div className="">
                 <div className="row" style={{ marginTop:"30px" }}>
-                    <h4>Related Articles for ID number {this.props.userId}</h4>
+                    <h4>Related Articles for ID Number {this.props.userId}</h4>
                     <div className="sixteen wide column"></div>
                     <table className="ui unstackable small fixed  table">
                         <thead>

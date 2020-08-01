@@ -5,8 +5,7 @@ import { reduxForm, Field } from 'redux-form';
 import moment from 'moment';
 
 class ArticlePayInterest extends React.Component {
-    componentDidMount() {
-        console.log(this.props)
+    componentDidMount() {        
         this.props.fetchArticle(this.props.article);
     }
     renderInput = ({ input, label, placeholder, type, meta, defaultValue }) => {
@@ -18,8 +17,9 @@ class ArticlePayInterest extends React.Component {
         );
     }
     onSubmit = (formValues) => {
-        this.props.editArticle(this.props.article._id, formValues, this.props.article.articleId);
-        console.log(this.props.article.articleId)        
+        const interestPaidDate = this.getCurrentDate()
+        const values = {...formValues, interestPaidDate}
+        this.props.editArticle(this.props.article._id, values, this.props.article.articleId);        
     }
     getCurrentDate() {
         const date = moment().format('MM/DD/YYYY');
@@ -29,13 +29,11 @@ class ArticlePayInterest extends React.Component {
         const printableElements = document.getElementById('pay-interest-slip').innerHTML;
         const orderHtml = '<html><head><title></title></head><body>' + printableElements + '</body></html>'
         const oldPage = document.body.innerHTML;
-        console.log(oldPage)
         document.body.innerHTML = orderHtml;
         window.print();
         document.body.innerHTML = oldPage
     }
     render() {
-        //console.log(this.props)
         if (!this.props.article) {
             return <div>Loading</div>
         }
@@ -66,7 +64,7 @@ class ArticlePayInterest extends React.Component {
                                     <div className="event">
                                         <div className="center aligned content">
                                             <div className="center aligned summary" style={{ textAlign: "center" }}>
-                                                {this.getCurrentDate()}
+                                                {this.props.article.interestPaidDate}
                                             </div>
                                         </div>
                                     </div>
@@ -98,7 +96,6 @@ const formWrapped = reduxForm({
 
 //Map data from the store
 const mapToSatate = (state, ownPorps) => {
-    //console.log(ownPorps.article)
     return { article: state.articles[ownPorps.article] };
 }
 
