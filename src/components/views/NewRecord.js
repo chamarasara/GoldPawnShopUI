@@ -70,7 +70,7 @@ class NewRecord extends React.Component{
                     </div>
                     <div className="four fields">
                     <div className="field">
-                        <Field name="article_number" component={this.renderInput} label="Article Number" placeholder="Article Number" type="number" />
+                        <Field name="articleId" component={this.renderInput} label="Article Number" placeholder="Article Number" type="number" />
                     </div>
                     <div className="field">
                         <label>Color</label>
@@ -121,8 +121,8 @@ const validate = (formValues) =>{
     if (!formValues.duration) {
         errors.duration = 'Please select the Duration';
     }
-    if (!formValues.article_number) {
-        errors.article_number = 'Please select the Article Number';
+    if (!formValues.articleId) {
+        errors.articleId = 'Please select the Article Number';
     }
     if (!formValues.color) {
         errors.color = 'Please select the Article Number';

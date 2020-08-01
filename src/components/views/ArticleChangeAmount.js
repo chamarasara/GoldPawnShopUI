@@ -26,6 +26,15 @@ class ArticleChangeAmount extends React.Component {
         const date = moment().format('MM/DD/YYYY');
         return date;
     }
+    changeAmountSlip = () => {
+        const printableElements = document.getElementById('change-amount-slip').innerHTML;
+        const orderHtml = '<html><head><title></title></head><body>' + printableElements + '</body></html>'
+        const oldPage = document.body.innerHTML;
+        console.log(oldPage)
+        document.body.innerHTML = orderHtml;
+        window.print();
+        document.body.innerHTML = oldPage
+    }
     render() {
         //console.log(this.props)
         if (!this.props.article) {
@@ -34,7 +43,7 @@ class ArticleChangeAmount extends React.Component {
         return (
             <div className="ui container" style={{ marginTop: "30px", marginBottom: "30px" }}>
                 <div>
-                    <h5>Update Payments of Article Number {this.props.article.articleId}</h5>
+                    <h5>Update Amount of Article Number {this.props.article.articleId}</h5>
                     <form className="ui mini form" onSubmit={this.props.handleSubmit(this.onSubmit)}>
                         <div className="four fields">
                             <div className="field">
@@ -46,10 +55,10 @@ class ArticleChangeAmount extends React.Component {
                         </div>
                     </form>
                 </div>
-                <div className="ui card">
+                <div className="ui card" style={{ marginTop: "30px", marginBottom: "10px", textAlign: "center" }}>
                     <div id="change-amount-slip">
                         <div className="content">
-                            <div className="center aligned header" style={{ marginTop: "30px", marginBottom: "10px", textAlign: "center" }}>Changed Amount by Paying Interest</div>
+                            <div className="center aligned header" style={{ marginTop: "30px", marginBottom: "10px", textAlign: "center" }}>Changed Amount</div>
                         </div>
                         <div className="content">
                             <h3 className="ui center aligned header">{this.props.article.articleId}</h3>

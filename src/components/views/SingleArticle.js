@@ -21,7 +21,7 @@ class SingleArticle extends React.Component {
         const decoded = jwt_decode(token);
         //console.log(decoded)
         if (decoded.user_role === 1) {
-            return <Link to={`/deletearticle/${this.props.match.params.id}`} className="ui button">
+            return <Link to={`/deletearticle/${this.props.match.params.id}`} className="ui red button">
                 Delete Article
                     </Link>
 
@@ -220,6 +220,57 @@ class SingleArticle extends React.Component {
         const date = moment().format('MM/DD/YYYY');
         return date;
     }
+    renderReleasedSlip(){
+        const article_status = this.props.article.article_status;
+        if (article_status === "Released") {
+            return(
+                <div className="ui card" style={{ marginTop: "170px", marginBottom: "10px", textAlign: "center" }}>
+                    <div id="release-slip">
+                        <div className="content">
+                            <div className="center aligned header" style={{ marginTop: "30px", marginBottom: "10px", textAlign: "center" }}>Released</div>
+                        </div>
+                        <div className="content">
+                            <h3 className="ui center aligned header">{this.props.article.articleId}</h3>
+                            <div className="ui small feed">
+                                <div className="event">
+                                    <div className="center aligned content">
+                                        <div className="center aligned summary" style={{ textAlign: "center" }}>
+                                            {this.props.article.released_date}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="event">
+                                    <div className="content">
+                                        <div className="center aligned summary" style={{ textAlign: "center" }}>
+                                            {this.toTotalAmountPaid() + ".00"}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="event">
+                                    <div className="content">
+                                        <div className="center aligned summary" style={{ textAlign: "center" }}>
+                                            <span style={{ textDecoration: "underline" }}>{this.toTotalInterestPaid() + ".00"}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="event" style={{ marginBottom: "40px" }}>
+                                    <div className="extra content">
+                                        <div className="center aligned summary" style={{ textAlign: "center" }}>
+                                            <span style={{ textDecoration: "underline", borderBottom: "1px solid #000" }}>{this.toTotalInterestPaid() + this.toTotalAmountPaid() + ".00"}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="ui horizontal divider">
+                                    .
+                                        </div>
+                            </div>
+                        </div>
+                    </div>
+                    <button className="ui button" onClick={() => this.releaseSlip()}>Print</button>
+                </div> 
+            )      
+        }
+    }
     render() {
         //console.log(this.props)
         if (!this.props.article || !this.props.interest) {
@@ -332,68 +383,18 @@ class SingleArticle extends React.Component {
                         </div>
                     </div>
                 </div>
-
-                <div className="eight wide column">
-                    <ArticlePayInterest article={this.props.match.params.id} />
-                    <ArticleChangeAmount article={this.props.match.params.id}/>
-
-                </div>
                 <div className="ui grid">
-                    <div className="four wide column" style={{ marginTop: "30px", marginBottom: "10px", textAlign: "center" }}>
-                        <div className="ui card">
-                            <div id="release-slip">
-                                <div className="content">
-                                    <div className="center aligned header" style={{ marginTop: "30px", marginBottom: "10px", textAlign: "center" }}>Released</div>
-                                </div>
-                                <div className="content">
-                                    <h3 className="ui center aligned header">{this.props.article.articleId}</h3>
-                                    <div className="ui small feed">
-                                        <div className="event">
-                                            <div className="center aligned content">
-                                                <div className="center aligned summary" style={{ textAlign: "center" }}>
-                                                    {this.props.article.released_date}
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="event">
-                                            <div className="content">
-                                                <div className="center aligned summary" style={{ textAlign: "center" }}>
-                                                    {this.toTotalAmountPaid() + ".00"}
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="event">
-                                            <div className="content">
-                                                <div className="center aligned summary" style={{ textAlign: "center" }}>
-                                                    <span style={{ textDecoration: "underline" }}>{this.toTotalInterestPaid() + ".00"}</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="event" style={{ marginBottom: "40px" }}>
-                                            <div className="extra content">
-                                                <div className="center aligned summary" style={{ textAlign: "center" }}>
-                                                    <span style={{ textDecoration: "underline", borderBottom: "1px solid #000" }}>{this.toTotalInterestPaid() + this.toTotalAmountPaid() + ".00"}</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="ui horizontal divider">
-                                            .
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <button className="ui button" onClick={() => this.releaseSlip()}>Print</button>
-                        </div>
+                    <div className="six wide column">
+                        <ArticlePayInterest article={this.props.match.params.id} />     
+                    </div>
+                    <div className="six wide column">
+                        <ArticleChangeAmount article={this.props.match.params.id} />
                     </div>
                     <div className="four wide column" style={{ marginTop: "30px", marginBottom: "10px", textAlign: "center" }}>
-
+                        {this.renderReleasedSlip()}
                     </div>
-                    <div className="four wide column" style={{ marginTop: "30px", marginBottom: "10px", textAlign: "center" }}>
-                        
-                    </div>
-
-                </div>
-                <div>
+                </div>                
+                <div style={{ marginTop: "30px", marginBottom: "50px", textAlign: "center" }}>
                     <RelatedArticle userId={this.props.article.id_number} articleId={this.props.article.articleId} />
                 </div>
             </div>
