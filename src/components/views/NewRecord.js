@@ -16,6 +16,15 @@ class NewRecord extends React.Component{
             );
         }
     }
+    errorMessage() {
+        if (this.props.errorMessage) {
+            return (
+                <div className="ui error message">
+                    {this.props.errorMessage}
+                </div>
+            );
+        }
+    }
     renderInput = ({ input, label, placeholder, type, meta}) => {
         return (
             <div className="field">
@@ -71,6 +80,7 @@ class NewRecord extends React.Component{
                     <div className="four fields">
                     <div className="field">
                         <Field name="articleId" component={this.renderInput} label="Article Number" placeholder="Article Number" type="number" />
+                        {this.errorMessage()}
                     </div>
                     <div className="field">
                         <label>Color</label>
