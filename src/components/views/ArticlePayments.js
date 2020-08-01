@@ -7,7 +7,6 @@ import moment from 'moment';
 
 class ArticlePayment extends React.Component {
     componentDidMount() {
-        console.log(this.props)
         this.props.fetchArticle(this.props.match.params.id);
     }
     renderInput = ({ input, label, placeholder, type, meta, defaultValue }) => {
@@ -19,15 +18,16 @@ class ArticlePayment extends React.Component {
         );
     }
     onSubmit = (formValues) => {
-        this.props.editArticle(this.props.article._id, formValues, this.props.article.articleId);
-        console.log(this.props.article.articleId)
+        const reNewDate = this.getCurrentDate()
+        const article_status = "Renewed";
+        const values = { ...formValues, reNewDate, article_status }
+        this.props.editArticle(this.props.article._id, values, this.props.article.articleId);
        
     }
     paymentSlip = () => {
         const printableElements = document.getElementById('payment-slip').innerHTML;
         const orderHtml = '<html><head><title></title></head><body>' + printableElements + '</body></html>'
         const oldPage = document.body.innerHTML;
-        console.log(oldPage)
         document.body.innerHTML = orderHtml;
         window.print();
         document.body.innerHTML = oldPage
@@ -72,7 +72,7 @@ class ArticlePayment extends React.Component {
                                     <div className="event">
                                         <div className="center aligned content">
                                             <div className="center aligned summary" style={{ textAlign: "center" }}>
-                                                {this.getCurrentDate()}
+                                                {this.props.article.reNewDate}
                                             </div>
                                         </div>
                                     </div>

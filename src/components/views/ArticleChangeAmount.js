@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { fetchArticle, editArticle } from '../../actions';
 import { reduxForm, Field } from 'redux-form';
+import DateDiff from 'date-diff';
 import { Link } from "react-router-dom";
 import moment from 'moment';
 
@@ -19,8 +20,32 @@ class ArticleChangeAmount extends React.Component {
     }
     onSubmit = (formValues) => {
         const amountChangedDate = this.getCurrentDate()
-        const values = { ...formValues, amountChangedDate }
+        const additional_charges = this.getAdditionalCharges();
+        const values = { ...formValues, amountChangedDate, additional_charges }
         this.props.editArticle(this.props.article._id, values, this.props.article.articleId);        
+    }
+    getDateDifference(){
+        const date1 = moment(this.props.article.createdAt).format('MM/DD/YYYY')
+        const pawnedDate = new Date(date1);
+        console.log(pawnedDate)
+        const date2 = moment().format('MM/DD/YYYY')
+        const currentDate = new Date(date2);
+        console.log(currentDate)
+        var differentInTime = new DateDiff(currentDate,pawnedDate);
+        const diffDays = differentInTime.months()
+        console.log(diffDays)
+        return diffDays;
+    }
+    getAdditionalCharges(){
+        var additionalCharges = 0;
+        const months = this.getDateDifference();
+        if (months <= 6) {
+            additionalCharges =100;
+        }else if (months > 6) {
+            additionalCharges = 20;
+        }
+        return additionalCharges;
+        
     }
     getCurrentDate() {
         const date = moment().format('MM/DD/YYYY');
@@ -71,21 +96,21 @@ class ArticleChangeAmount extends React.Component {
                                 <div className="event">
                                     <div className="content">
                                         <div className="center aligned summary" style={{ textAlign: "center" }}>
-                                            {this.props.article.additional_amount + ".00"}({this.props.article.amount + this.props.article.additional_amount + ".00"})
+                                            Previous: {this.props.article.amount+ ".00"} 
                                                 </div>
-                                    </div>
+                                    </div>                                
                                 </div>
                                 <div className="event">
                                     <div className="content">
                                         <div className="center aligned summary" style={{ textAlign: "center" }}>
-                                            <span style={{ textDecoration: "underline" }}>{this.props.article.interest_paid + ".00"}</span>
+                                            <span style={{ textDecoration: "underline" }}>Additional: {this.props.article.additional_amount + ".00"}</span>
                                         </div>
                                     </div>
                                 </div>
                                 <div className="event" style={{ marginBottom: "40px" }}>
                                     <div className="extra content">
                                         <div className="center aligned summary" style={{ textAlign: "center" }}>
-                                            <span style={{ textDecoration: "underline", borderBottom: "1px solid #000" }}>{this.props.article.additional_amount - this.props.article.interest_paid + ".00"}</span>
+                                            <span style={{ textDecoration: "underline", borderBottom: "1px solid #000" }}>{this.props.article.additional_amount + this.props.article.amount + ".00"}</span>
                                         </div>
                                     </div>
                                 </div>

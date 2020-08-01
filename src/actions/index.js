@@ -99,7 +99,6 @@ export const editArticle = (id, formValues, article_number) => async dispatch =>
     const token = localStorage.getItem('user');
     const decoded = jwt_decode(token);
     const userId = decoded.user_name;
-    console.log(userId)
     const article_status = formValues.article_status;
     const current_date = moment().format('MM/DD/YYYY');
     const final_date = current_date;
@@ -109,7 +108,7 @@ export const editArticle = (id, formValues, article_number) => async dispatch =>
     const response = await articles.patch(`/articles/${id}`, { ...formValues, userId, article_number}, header);
     console.log(response)
     dispatch({ type: EDIT_ARTICLE, payload: id });    
-    window.location.reload();
+    //window.location.reload();
 };
 //Delete article 
 export const deleteArticle = (id) => async dispatch => {

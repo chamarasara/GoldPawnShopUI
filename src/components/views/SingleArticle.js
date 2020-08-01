@@ -118,7 +118,7 @@ class SingleArticle extends React.Component {
         } else if (article_status === "Renewed") {
             return <div className="item">
                 <div className="ui horizontal label">Current Status of Article </div>
-                Renewed
+                Renewed (Date: {this.props.article.reNewDate})
             </div>
         }
     }
@@ -347,6 +347,10 @@ class SingleArticle extends React.Component {
                             <div className="item">
                                 <div className="ui horizontal label">Total Inerest Paid</div>
                                 {this.toTotalInterestPaid() + ".00"}
+                            </div>
+                            <div className="item">
+                                <div className="ui horizontal label">Additional Charges</div>
+                                {this.props.article.additional_charges + ".00"}
                             </div>
                         </div>
                         <ArticleState article={this.props.match.params.id} />
