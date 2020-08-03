@@ -48,7 +48,7 @@ export const newArticle = (formValues, previous_article_id) => async dispatch =>
         const response = await articles.post('/articles', { ...formValues, userId, previous_article }, header);
         console.log(response)
         dispatch({ type: CREATE_ARTICLE, payload: response.data });
-        window.location.reload();
+        //window.location.reload();
     } catch (error) {
         dispatch({
             type: ARTICLE_EXISTS,

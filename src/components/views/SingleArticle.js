@@ -358,7 +358,7 @@ class SingleArticle extends React.Component {
                             <Link to={`/singlearticle/${this.props.article.previous_article_id}`} className="ui primary button">
                                 Previous Article
                             </Link>
-                            <Link to={`/renewbypaying/${this.props.match.params.id}`} className="ui primary button">
+                            <Link to={`/renewarticleprompt/${this.props.match.params.id}`} className="ui primary button">
                                 Renew Article
                             </Link>
                             <Link to={`/editarticle/${this.props.match.params.id}`} className="ui primary button">

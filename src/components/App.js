@@ -21,6 +21,7 @@ import ListRecords from './views/ListRecords';
 import ActivityLog from './views/ActivityLog';
 import PrintReports from'./views/PrintReports';
 import ArticlePayments from './views/ArticlePayments';
+import RenewArticleModal from './views/RenewArticleModal';
 
 class App extends React.Component{
 
@@ -39,11 +40,12 @@ class App extends React.Component{
                     <PrivateRoute path="/editprofile" component={EditProfile} />
                     <PrivateRoute path="/singlearticle/:id" component={SingleArticle} />      
                     <PrivateRoute path="/editarticle/:id" component={EditArticle} />  
-                    <PrivateRoute path="/deletearticle/:id" component={DeleteArticle} /> 
+                    <PrivateRoute path="/deletearticle/:id" component={DeleteArticle} />                     
                     <PrivateRoute path="/userprofile/:id" component={Profile} /> 
                     <PrivateRoute path="/useredit/:id" component={EditProfile} /> 
                     <PrivateRoute path="/userdelete/:id" component={DeleteUser} />
                     <PrivateRoute path="/renewarticle/:id" component={RenewArticle} />
+                    <PrivateRoute path="/renewarticleprompt/:id" component={RenewArticleModal} /> 
                     <PrivateRoute path="/settings" component={Settings} />
                     <PrivateRoute path="/allarticles" component={ListRecords} />
                     <PrivateRoute path="/rates/:id" component={EditRates} />

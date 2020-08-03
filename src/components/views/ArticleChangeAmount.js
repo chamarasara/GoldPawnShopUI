@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 import moment from 'moment';
 
 class ArticleChangeAmount extends React.Component {
-    componentDidMount() {        
+    componentDidMount() {
         this.props.fetchArticle(this.props.article);
     }
     renderInput = ({ input, label, placeholder, type, meta, defaultValue }) => {
@@ -22,30 +22,35 @@ class ArticleChangeAmount extends React.Component {
         const amountChangedDate = this.getCurrentDate()
         const additional_charges = this.getAdditionalCharges();
         const values = { ...formValues, amountChangedDate, additional_charges }
-        this.props.editArticle(this.props.article._id, values, this.props.article.articleId);        
+        this.props.editArticle(this.props.article._id, values, this.props.article.articleId);
     }
-    getDateDifference(){
+    getDateDifference() {
         const date1 = moment(this.props.article.createdAt).format('MM/DD/YYYY')
         const pawnedDate = new Date(date1);
-        console.log(pawnedDate)
         const date2 = moment().format('MM/DD/YYYY')
         const currentDate = new Date(date2);
-        console.log(currentDate)
-        var differentInTime = new DateDiff(currentDate,pawnedDate);
+        var differentInTime = new DateDiff(currentDate, pawnedDate);
         const diffDays = differentInTime.months()
-        console.log(diffDays)
         return diffDays;
     }
-    getAdditionalCharges(){
+    getAdditionalCharges() {
         var additionalCharges = 0;
+        var articleDuration = this.props.article.duration;
+        console.log(articleDuration)
         const months = this.getDateDifference();
-        if (months <= 6) {
-            additionalCharges =100;
-        }else if (months > 6) {
+        console.log(months)
+        if (articleDuration == 1 && months <= 6) {
+            additionalCharges = 100;
+        } else if (articleDuration == 1 && months > 6) {
+            additionalCharges = 20;
+        } else if (articleDuration == 3 && months <= 1.5) {
+            additionalCharges = 100;
+        } else if (articleDuration == 3 && months > 1.5) {
             additionalCharges = 20;
         }
+        console.log(additionalCharges)
         return additionalCharges;
-        
+
     }
     getCurrentDate() {
         const date = moment().format('MM/DD/YYYY');
@@ -59,7 +64,7 @@ class ArticleChangeAmount extends React.Component {
         window.print();
         document.body.innerHTML = oldPage
     }
-    render() {        
+    render() {
         if (!this.props.article) {
             return <div>Loading</div>
         }
@@ -74,7 +79,7 @@ class ArticleChangeAmount extends React.Component {
                             </div>
                         </div>
                         <div className="field">
-                            <button type="submit" className="ui primary button">Update Payments</button>                            
+                            <button type="submit" className="ui primary button">Update Payments</button>
                         </div>
                     </form>
                 </div>
@@ -96,9 +101,9 @@ class ArticleChangeAmount extends React.Component {
                                 <div className="event">
                                     <div className="content">
                                         <div className="center aligned summary" style={{ textAlign: "center" }}>
-                                            Previous: {this.props.article.amount+ ".00"} 
-                                                </div>
-                                    </div>                                
+                                            Previous: {this.props.article.amount + ".00"}
+                                        </div>
+                                    </div>
                                 </div>
                                 <div className="event">
                                     <div className="content">
@@ -132,8 +137,8 @@ const formWrapped = reduxForm({
 })(ArticleChangeAmount);
 
 //Map data from the store
-const mapToSatate = (state, ownPorps) => {    
-    return { article:state.articles[ownPorps.article] };
+const mapToSatate = (state, ownPorps) => {
+    return { article: state.articles[ownPorps.article] };
 }
 
 

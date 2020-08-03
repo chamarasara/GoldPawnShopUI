@@ -2,13 +2,15 @@ import React from "react";
 import { Field, reduxForm } from 'redux-form';
 import { connect } from 'react-redux';
 import { newArticle, fetchArticle } from '../../actions';
-
+import moment from 'moment';
 
 
 class RenewArticle extends React.Component {
 
 componentDidMount(){
     this.props.fetchArticle(this.props.match.params.id);
+    
+    
 }
     //Show errors in the form fields
     renderError({ error, touched }) {
@@ -29,12 +31,34 @@ componentDidMount(){
             </div>
         );
     }
-    onSubmit = (formValues) => {       
-        const previous_artile_id =this.props.article._id;
-        this.props.newArticle(formValues, previous_artile_id);
-        //console.log(previous_artile_id)
+    checkExpiaration(){
+        const finalDate = this.props.article.released_final_date;
+        const currentDate = this.getCurrentDate;
+        if (finalDate >= currentDate) {
+            return true;
+        }
     }
-
+    getAdditionalCharges(){
+        var value = 0;
+        const expiaration = this.checkExpiaration();
+        if (expiaration == true) {
+            value = 80;
+        }else{
+            value = 20;
+        }
+        return value;
+    }
+    onSubmit = (formValues) => {     
+        const reNewDate = this.getCurrentDate()        
+        const additional_charges = this.getAdditionalCharges();
+        const values = { ...formValues, additional_charges}  
+        const previous_artile_id = this.props.match.params.id;
+        this.props.newArticle(values, previous_artile_id);   
+    }
+    getCurrentDate() {
+        const date = moment().format('MM/DD/YYYY');
+        return date;
+    }
     render() {
         //console.log(this.props.article.first_name)
         if (!this.props.article) {
@@ -46,6 +70,7 @@ componentDidMount(){
                 <form className="ui mini form error" onSubmit={this.props.handleSubmit(this.onSubmit)}>
                     <div className="fields">
                         <div className="eight wide field">
+                            {this.checkExpiaration()}
                             <Field name="first_name" component={this.renderInput} label="First Name"  placeholder="First Name" type="text" />
                         </div>
                         <div className="eight wide field">
@@ -146,7 +171,8 @@ const formWrapped = reduxForm({
 })(RenewArticle);
 
 const mapToSatate = (state, ownPorps) => {
-    console.log(state.articles[ownPorps.match.params.id])
+    const article = state.articles[ownPorps.match.params.id];
+    console.log(article)
     return { article: state.articles[ownPorps.match.params.id] };
 }
 export default connect(mapToSatate, { newArticle, fetchArticle })(formWrapped);
