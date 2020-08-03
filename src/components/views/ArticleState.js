@@ -22,7 +22,10 @@ class ArticleState extends React.Component {
         console.log(formValues)
     }
 
-
+    releaseArticle(){
+        const article_status = "Released";
+        
+    }
     adminRendering() {
         const token = localStorage.getItem('user');
         const decoded = jwt_decode(token);
@@ -54,20 +57,26 @@ class ArticleState extends React.Component {
             return <div>Something went wrong</div>
         }
         return (
-            <div className="" style={{ marginTop: "30px", marginBottom: "30px" }}>
-                <h5>Update Status of Article Number {this.props.article.articleId}</h5>
-                <form className="ui mini form" onSubmit={this.props.handleSubmit(this.onSubmit)}>
-                    <div className="four fields">
-                        <div className="field">
-                            <label>Change State</label>
-                            {this.adminRendering()}
+            <div>
+                <div className="" style={{ marginTop: "30px", marginBottom: "30px" }}>
+                    <h5>Update Status of Article Number {this.props.article.articleId}</h5>
+                    <form className="ui mini form" onSubmit={this.props.handleSubmit(this.onSubmit)}>
+                        <div className="four fields">
+                            <div className="field">
+                                <label>Change State</label>
+                                {this.adminRendering()}
+                            </div>
                         </div>
-                    </div>
-                    <div className="field">
-                        <button type="submit" className="ui primary button">Update Status</button>
-                    </div>
-                </form>
+                        <div className="field">
+                            <button type="submit" className="ui primary button">Update Status</button>
+                        </div>
+                    </form>
+                </div>
+                <div>
+                    <button onClick={() => this.releaseArticle()} className="ui red button">Release</button>
+                </div>
             </div>
+            
         );
     }
 

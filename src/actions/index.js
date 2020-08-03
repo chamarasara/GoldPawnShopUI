@@ -95,7 +95,7 @@ export const fetchArticle = (id) => async dispatch => {
     dispatch({ type: FETCH_ARTICLE, payload: response.data });
 };
 //Edit article
-export const editArticle = (id, formValues, article_number) => async dispatch => {
+export const editArticle = (id, formValues, articleId) => async dispatch => {
     const token = localStorage.getItem('user');
     const decoded = jwt_decode(token);
     const userId = decoded.user_name;
@@ -103,9 +103,9 @@ export const editArticle = (id, formValues, article_number) => async dispatch =>
     const current_date = moment().format('MM/DD/YYYY');
     const final_date = current_date;
     console.log(formValues)
-    //console.log(article_number)
+    //console.log(articleId)
     const header = { headers: { 'authorization': token } };
-    const response = await articles.patch(`/articles/${id}`, { ...formValues, userId, article_number}, header);
+    const response = await articles.patch(`/articles/${id}`, { ...formValues, userId, articleId}, header);
     console.log(response)
     dispatch({ type: EDIT_ARTICLE, payload: id });    
     //window.location.reload();
@@ -119,7 +119,7 @@ export const deleteArticle = (id) => async dispatch => {
     //console.log(header.headers)
     await articles.delete(`/articles/${id}`, header, { userId, id });
     dispatch({ type: DELETE_ARTICLE, payload: id });
-    history.push('/');
+    history.push('/allarticles');
 };
 //Add new user
 export const createUser = formValues => async dispatch => {
