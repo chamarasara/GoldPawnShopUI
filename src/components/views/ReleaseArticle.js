@@ -111,7 +111,6 @@ class ReleaseArticle extends React.Component {
         return released_amount;
     }
     interestPayable() {
-
         const interest1 = this.articleInterest() + this.props.article.additional_charges;
         const interest = interest1 + (10 - interest1 % 10);
         console.log(interest)
@@ -125,8 +124,13 @@ class ReleaseArticle extends React.Component {
         const formValues = {}
         const released_amount = this.amountPayable()
         const interest_paid = this.interestPayable()
-        const values = { ...formValues, released_amount, article_status, interest_paid }
+        const interestPaidDate = this.getCurrentDate()
+        const values = { ...formValues, released_amount, article_status, interest_paid, interestPaidDate  }
         return values;
+    }
+    getCurrentDate() {
+        const date = moment().format('MM/DD/YYYY');
+        return date;
     }
     renderActions() {
         const id = this.props.match.params.id;
