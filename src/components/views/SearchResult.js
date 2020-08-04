@@ -8,10 +8,6 @@ class SearchResults extends React.Component {
         this.props.fetchArticles();
     }
     renderList() {
-        // const token = localStorage.getItem('user');
-        // const decoded = jwt_decode(token)
-        //console.log(decoded);
-
         return this.props.articles.map(articles => {
             if (articles.color === 1) {
                 if (articles.article_status === "Active" || articles.article_status === "Released") {

@@ -30,25 +30,22 @@ import {
     SEARCH_REPORTS,
     SEARCH_REPORTS_DATE
 } from './types';
-// const baseURL = 'http://localhost:3001';
 
 
 //Add new article
 export const newArticle = (formValues, previous_article_id) => async dispatch => {
     try {
-        const token = localStorage.getItem('user');
+        const token = sessionStorage.getItem('user');
         const decoded = jwt_decode(token);
         const userId = decoded.user_name;
         const header = { headers: { 'authorization': token } };
         console.log(formValues)
         const previous_article = previous_article_id;
         console.log(previous_article)
-        //console.log(header.headers)
-        //console.log(userId);
         const response = await articles.post('/articles', { ...formValues, userId, previous_article }, header);
         console.log(response)
         dispatch({ type: CREATE_ARTICLE, payload: response.data });
-        //window.location.reload();
+        window.location.reload();
     } catch (error) {
         dispatch({
             type: ARTICLE_EXISTS,
@@ -59,20 +56,14 @@ export const newArticle = (formValues, previous_article_id) => async dispatch =>
 };
 //Fetch all articles
 export const fetchArticles = () => async dispatch => {
-    const token = localStorage.getItem('user');
+    const token = sessionStorage.getItem('user');
     const header = { headers: { "authorization": token } };
-    //console.log(header.headers)
     const response = await articles.get('/articles', header);
-    //console.log(response.data)
     dispatch({ type: FETCH_ARTICLES, payload: response.data });
 };
 //Search articles 
 export const searchArticles = (searchText, startDate, endDate) => async dispatch => {
-    // const token = localStorage.getItem('user');
-    // const header = { headers: { "authorization": token } };
-    console.log(startDate)
     const response = await articles.post('/articles/searchArticles', {searchText,startDate, endDate});
-    console.log(response.data);
     //window.location.reload()
     dispatch({ type: SEARCH_ARTICLE, payload: response.data });
 };
@@ -82,41 +73,38 @@ export const searchArticlesByText = (searchText) => async dispatch => {
 };
 //Sort Article by date
 export const searchArticlesByDate = (formvalues) => async dispatch => {
-    //console.log(formvalues)
     dispatch({ type: SEARCH_ARTICLE_DATE, payload: formvalues });
 };
 //Fetch single article
 export const fetchArticle = (id) => async dispatch => {
     console.log(id)
-    const token = localStorage.getItem('user');
-    const header = { headers: { "authorization": token } };
+    const token = sessionStorage.getItem('user');
+    console.log(token)
+    var header = { headers: { "authorization": token } };
     const response = await articles.get(`/articles/${id}`, header);
-    //console.log(response.data)
     dispatch({ type: FETCH_ARTICLE, payload: response.data });
 };
 //Edit article
 export const editArticle = (id, formValues, articleId) => async dispatch => {
-    const token = localStorage.getItem('user');
+    const token = sessionStorage.getItem('user');
     const decoded = jwt_decode(token);
     const userId = decoded.user_name;
     const article_status = formValues.article_status;
     const current_date = moment().format('MM/DD/YYYY');
     const final_date = current_date;
     console.log(formValues)
-    //console.log(articleId)
     const header = { headers: { 'authorization': token } };
     const response = await articles.patch(`/articles/${id}`, { ...formValues, userId, articleId}, header);
     console.log(response)
     dispatch({ type: EDIT_ARTICLE, payload: id });    
-    //window.location.reload();
+    window.location.reload();
 };
 //Delete article 
 export const deleteArticle = (id) => async dispatch => {
-    const token = localStorage.getItem('user');
+    const token = sessionStorage.getItem('user');
     const decoded = jwt_decode(token);
     const userId = decoded._id;
     const header = { headers: { "authorization": token } };
-    //console.log(header.headers)
     await articles.delete(`/articles/${id}`, header, { userId, id });
     dispatch({ type: DELETE_ARTICLE, payload: id });
     history.push('/allarticles');
@@ -156,9 +144,9 @@ export function signInAction({ user_name, password }, history) {
         try {
             const res = await user.post('/users/login', { user_name, password });
             console.log(res);
+            sessionStorage.setItem('user', res.data.token)
             dispatch({ type: AUTHENTICATED, payload: res.data });
-            console.log(res.data.token);
-            
+            console.log(res.data.token);            
             history.push('/');
             window.location.reload();
         } catch (error) {
@@ -171,7 +159,7 @@ export function signInAction({ user_name, password }, history) {
 }
 //logout user
 export function signOutAction() {
-    localStorage.clear();
+    sessionStorage.clear();
     window.location.reload();
     return {
         type: UNAUTHENTICATED
@@ -179,9 +167,7 @@ export function signOutAction() {
 }
 //Fetch Rates
 export const fetchRates = (id) => async dispatch => {
-    //console.log(id)
     const response = await articles.get(`/rates/${id}`);
-    //console.log(response.data)
     dispatch({ type: FETCH_RATES, payload: response.data });
 };
 export const editRates = (id, formValues) => async dispatch => {

@@ -17,7 +17,7 @@ class SingleArticle extends React.Component {
         this.props.activityLog()
     }
     adminRendering() {
-        const token = localStorage.getItem('user');
+        const token = sessionStorage.getItem('user');
         const decoded = jwt_decode(token);        
         if (decoded.user_role === 1) {
             return <Link to={`/deletearticle/${this.props.match.params.id}`} className="ui red button">

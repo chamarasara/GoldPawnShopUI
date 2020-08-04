@@ -5,15 +5,6 @@ import { signInAction } from '../../actions'
 
 class Signin extends React.Component {
 
-    //   componentWillMount() {
-    //         if (localStorage.getItem('user')) {
-    //             this.props.history.push('/');
-    //             debugger;
-    //             window.location.reload();
-    //         }
-    //     }
-
-
     submit = (values) => {
         this.props.signInAction(values, this.props.history);
     }

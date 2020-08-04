@@ -11,8 +11,8 @@ class Header extends React.Component {
     }
 
     navbarLinks() {
-        if (localStorage.getItem('user')) {
-            const token = localStorage.getItem('user');
+        if (sessionStorage.getItem('user')) {
+            const token = sessionStorage.getItem('user');
             console.log(token)
             const decoded = jwt_decode(token);
             if (decoded.user_role == 1) {

@@ -22,7 +22,7 @@ class EditArticle extends React.Component {
         //console.log(this.props.match.params.id)
     }
     adminRendering() {
-        const token = localStorage.getItem('user');
+        const token = sessionStorage.getItem('user');
         const decoded = jwt_decode(token);
         //console.log(decoded)
         if (decoded.user_role === 1) {

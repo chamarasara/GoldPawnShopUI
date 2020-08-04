@@ -12,7 +12,7 @@ class Profile extends React.Component{
         this.props.fetchUser(this.props.match.params.id);
     }
     adminRendering() {
-        const token = localStorage.getItem('user');
+        const token = sessionStorage.getItem('user');
         const decoded = jwt_decode(token);
         //console.log(decoded)
         if (decoded.user_role === 1) {
