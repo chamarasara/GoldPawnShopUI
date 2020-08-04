@@ -99,6 +99,20 @@ export const editArticle = (id, formValues, articleId) => async dispatch => {
     dispatch({ type: EDIT_ARTICLE, payload: id });    
     window.location.reload();
 };
+//Release article
+export const releaseArticle = (id, formValues, articleId) => async dispatch => {
+    const token = sessionStorage.getItem('user');
+    const decoded = jwt_decode(token);
+    const userId = decoded.user_name;
+    const current_date = moment().format('MM/DD/YYYY');
+    const final_date = current_date;
+    console.log(formValues)
+    const header = { headers: { 'authorization': token } };
+    const response = await articles.patch(`/articles/${id}`, { ...formValues, userId, articleId }, header);
+    console.log(response)
+    dispatch({ type: EDIT_ARTICLE, payload: id });
+    history.push(`/singlearticle/${id}`);
+};
 //Delete article 
 export const deleteArticle = (id) => async dispatch => {
     const token = sessionStorage.getItem('user');

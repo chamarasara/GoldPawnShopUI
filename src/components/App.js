@@ -18,6 +18,7 @@ import history from "../history";
 import RenewArticle from './views/RenewArticle';
 import EditRates from './views/EditRates';
 import ListRecords from './views/ListRecords';
+import ReleaseArticle from "./views/ReleaseArticle";
 import ActivityLog from './views/ActivityLog';
 import PrintReports from'./views/PrintReports';
 import ArticlePayments from './views/ArticlePayments';
@@ -40,7 +41,8 @@ class App extends React.Component{
                     <PrivateRoute path="/editprofile" component={EditProfile} />
                     <PrivateRoute path="/singlearticle/:id" component={SingleArticle} />      
                     <PrivateRoute path="/editarticle/:id" component={EditArticle} />  
-                    <PrivateRoute path="/deletearticle/:id" component={DeleteArticle} />                     
+                    <PrivateRoute path="/deletearticle/:id" component={DeleteArticle} /> 
+                    <PrivateRoute path="/releasearticle/:id" component={ReleaseArticle} />                     
                     <PrivateRoute path="/userprofile/:id" component={Profile} /> 
                     <PrivateRoute path="/useredit/:id" component={EditProfile} /> 
                     <PrivateRoute path="/userdelete/:id" component={DeleteUser} />

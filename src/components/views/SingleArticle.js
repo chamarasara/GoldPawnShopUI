@@ -353,7 +353,7 @@ class SingleArticle extends React.Component {
                                 {this.props.article.additional_charges + ".00"}
                             </div>
                         </div>
-                        <ArticleState article={this.props.match.params.id} />
+                        <ArticleState article={this.props.match.params.id} toTotalAmountPaid={this.toTotalAmountPaid()} totalInterest={roundedInterest}/>
                         <div style={{ marginTop: "20px" }}>
                             <Link to={`/singlearticle/${this.props.article.previous_article_id}`} className="ui primary button">
                                 Previous Article

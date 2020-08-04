@@ -1,8 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { fetchArticle, editArticle } from '../../actions';
+import { fetchArticle, editArticle, activityLog } from '../../actions';
 import { reduxForm, Field } from 'redux-form';
 import * as jwt_decode from "jwt-decode";
+import { Link } from "react-router-dom";
 
 class ArticleState extends React.Component {
     componentDidMount() {
@@ -21,15 +22,58 @@ class ArticleState extends React.Component {
         this.props.editArticle(this.props.article._id, formValues, this.props.article.articleId);
         console.log(formValues)
     }
+    toTotalAmountPaid() {
+        var sum = 0;
+        var values = this.props.activities;
 
+        for (var i = 0; i < values.length; i++) {
+            let record = values[i];
+            if (record && record.released_amount && record.articleId == this.props.article.articleId) {
+                sum += record.released_amount
+            }
+        }
+        return sum;
+    }
+    toTotalInterestPaid() {
+        var sum = 0;
+        var values = this.props.activities;
+
+        for (var i = 0; i < values.length; i++) {
+            let record = values[i];
+            if (record && record.interest_paid && record.articleId == this.props.article.articleId) {
+                sum += record.interest_paid
+            }
+        }
+        console.log('total', sum)
+        return sum;
+    }
+
+    amountPayable(){
+        const amountPawned = this.props.article.amount + this.props.article.additional_amount;
+        const amountPaid = this.toTotalAmountPaid();
+        const released_amount = amountPawned - amountPaid;
+        console.log(released_amount)
+        return released_amount;
+    }
+    interestPayable(){
+        const interest = this.props.totalInterest + this.props.article.additional_charges;
+        const interestPaid = this.props.article.interest_paid;
+        const interest_paid = interest - interestPaid;
+        console.log(interest_paid)
+        return interest_paid;
+    }
     releaseArticle(){
         const article_status = "Released";
-        
+        const formValues = {}
+        const released_amount = this.amountPayable()
+        const interest_paid = this.interestPayable()
+        const values = {...formValues, released_amount, article_status, interest_paid}
+        window.alert(values )
+        console.log(values)
     }
     adminRendering() {
         const token = sessionStorage.getItem('user');
         const decoded = jwt_decode(token);
-        console.log(decoded)
         if (decoded.user_role ===1 ) {
             return <Field name="article_status" component="select" label="Weight">
                 <option>---</option>
@@ -73,7 +117,7 @@ class ArticleState extends React.Component {
                     </form>
                 </div>
                 <div>
-                    <button onClick={() => this.releaseArticle()} className="ui red button">Release</button>
+                    <Link to={`/releasearticle/${this.props.article._id}`} className="ui red button">Release</Link>
                 </div>
             </div>
             
@@ -88,8 +132,12 @@ const formWrapped = reduxForm({
 //Map data from the store
 const mapToSatate = (state, ownPorps) => {
     //console.log(ownPorps.article)
-    return { article: state.articles[ownPorps.article] };
+    const intId = '5f12c185e1b005f6656aca78';
+    const activities = Object.values(state.activities)
+    activities.reverse()
+    console.log(ownPorps)
+    return { interest: state.interest[intId], article: state.articles[ownPorps.article], activities: activities, amountPaid: ownPorps.toTotalAmountPaid, totalInterest: ownPorps.totalInterest };
 }
 
 
-export default connect(mapToSatate, { fetchArticle, editArticle })(formWrapped);
+export default connect(mapToSatate, { fetchArticle, editArticle, activityLog })(formWrapped);
