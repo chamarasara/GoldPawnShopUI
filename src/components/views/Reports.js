@@ -69,7 +69,24 @@ class Reports extends React.Component {
         for (var i = 0; i < reports.length; i++) {
             sum += reports[i].released_amount + reports[i].interest_paid;
         }
-        console.log('total', sum)
+        return sum;
+    }
+    getTotalAmountPaid() {
+        var sum = 0;
+        var reports = this.props.reports;
+
+        for (var i = 0; i < reports.length; i++) {
+            sum += reports[i].released_amount;
+        }
+        return sum;
+    }
+    getTotalInterst() {
+        var sum = 0;
+        var reports = this.props.reports;
+
+        for (var i = 0; i < reports.length; i++) {
+            sum += reports[i].interest_paid;
+        }
         return sum;
     }
 
@@ -139,8 +156,10 @@ class Reports extends React.Component {
                             </tbody>
                             <tfoot>
                                 <tr>
-                                    <th colspan="2"></th>
+                                    
                                     <th style={{ paddingLeft: "50px", paddingRight: "50px" }}><strong>Total</strong></th>
+                                    <th style={{ paddingLeft: "50px", paddingRight: "50px" }}><strong>{this.getTotalInterst()}</strong></th>
+                                        <th style={{ paddingLeft: "50px", paddingRight: "50px" }}><strong>{this.getTotalAmountPaid()}</strong></th>
                                     <th style={{ paddingLeft: "50px", paddingRight: "50px" }}><strong>{this.getTotalDebits()}</strong></th>
                                 </tr>
                             </tfoot>
